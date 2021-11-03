@@ -142,7 +142,7 @@ def return_file():
                                         marker_line_width=0.1, marker_opacity=0.7))
 
     # make note of filters for title text (ex. Fire - Priority 1 Medical)
-    fig.update_layout(title_text ='Response times by zip code', title_x =0.5, width=750, height=700,
+    fig.update_layout(title_text ='Response times by zip code', title_x =0.5, width=375, height=350,
                       mapbox=dict(style='open-street-map',
                                   zoom=9.7, 
                                   center = {"lat": pd.Series([point.y for point in gdf.geometry]).mean() ,
@@ -153,7 +153,7 @@ def return_file():
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font('Arial', 'B', 16)
-    pdf.image("tmp.jpeg", x = None, y = None, w = 0, h = 0, type = 'jpeg')
+    pdf.image("tmp.jpeg", x = None, y = None, w = 10, type = 'jpeg')
     response = make_response(pdf.output(dest='S').encode('latin-1'))
     response.headers.set('Content-Disposition', 'attachment', 
                          filename=filename + '_analysis.pdf')
