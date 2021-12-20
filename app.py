@@ -99,7 +99,9 @@ def return_file():
     print("Median zip-code-level Black population proportion:", black_median)
     print("Median zip-code-average Hispanic population proportion:", hispanic_median)
     
-    with open("san_jose_zctas.geojson") as geofile:
+    zctas_df_subset = zctas_df_subset.to_crs(epsg=4326)
+    zctas_df_subset.to_file("data/zctas_df_subset_tmp.geojson", driver = "GeoJSON")
+    with open("data/zctas_df_subset_tmp.geojson") as geofile:
       zctas_df_geojson = json.load(geofile)
     
     for k in range(len(zctas_df_geojson['features'])):
