@@ -10,7 +10,7 @@ from geopandas.tools import sjoin
 import plotly.graph_objs as go
 
 from data_cleaning import read_upload, clean_lat_long
-# from generate_pdf import
+# To-do: separate PDF generation code (e.g., from generate_pdf import)
 
 app = Flask(__name__, template_folder='templates')
 app.secret_key = "super secret key"
