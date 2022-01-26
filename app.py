@@ -62,7 +62,8 @@ def return_file():
     df_sample = df.sample(100)
     
     # Join incidents to zip codes
-    gdf = gpd.GeoDataFrame(df_sample, geometry=gpd.points_from_xy(df[long_col], df[lat_col]))
+    gdf = gpd.GeoDataFrame(df_sample, geometry=gpd.points_from_xy(df_sample[long_col], 
+                                                                  df_sample[lat_col]))
     gdf.crs = zctas_df_subset.crs
     og_len = len(gdf)
     gdf = sjoin(gdf, zctas_df_subset, how="inner")
