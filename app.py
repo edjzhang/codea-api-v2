@@ -129,7 +129,7 @@ def return_file():
                                   center = {"lat": pd.Series([point.y for point in gdf.geometry]).mean() ,
                                             "lon":pd.Series([point.x for point in gdf.geometry]).mean()},
                                   ))
-    tmp_file_name = 'tmp' + pd.Timestamp.now() + '.jpeg'
+    tmp_file_name = 'tmp_' + str(pd.Timestamp.now()) + '.jpeg'
     fig.write_image(tmp_file_name)
     
     pdf = FPDF()
