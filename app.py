@@ -1,5 +1,6 @@
 import os
 from guppy import hpy
+import gc
 from flask import Flask, request, make_response, render_template
 from werkzeug.utils import secure_filename
 from fpdf import FPDF
@@ -58,10 +59,10 @@ def return_file():
     print(zctas_df_subset.shape)
     
     # Sample 100 only for the free Heroku deployment; if running locally, can remove this
-    df = df.sample(100)
+    df_sample = df.sample(100)
     
     # Join incidents to zip codes
-    gdf = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df[long_col], df[lat_col]))
+    gdf = gpd.GeoDataFrame(df_sample, geometry=gpd.points_from_xy(df[long_col], df[lat_col]))
     gdf.crs = zctas_df_subset.crs
     og_len = len(gdf)
     gdf = sjoin(gdf, zctas_df_subset, how="inner")
@@ -142,6 +143,8 @@ def return_file():
                          filename=filename + '_analysis.pdf')
     response.headers.set('Content-Type', 'application/pdf')
     
+    del df, zctas_df_geojson, fig, pdf, gdf, df_sample, zctas_df_subset, file
+    gc.collect()
     print(hpy().heap())
     os.remove(tmp_file_name)
     
