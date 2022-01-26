@@ -1,4 +1,5 @@
 import os
+from guppy import hpy
 from flask import Flask, request, make_response, render_template
 from werkzeug.utils import secure_filename
 from fpdf import FPDF
@@ -141,6 +142,7 @@ def return_file():
                          filename=filename + '_analysis.pdf')
     response.headers.set('Content-Type', 'application/pdf')
     
+    print(hpy().heap())
     os.remove(tmp_file_name)
     
     return response
