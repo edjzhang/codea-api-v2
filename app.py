@@ -56,8 +56,8 @@ def return_file():
                                 (zctas_df_bounds.maxx <= df[long_col].max())))]
     print(zctas_df_subset.shape)
     
-    # Sample 1000 only for the free Heroku deployment; if running locally, can remove this
-    df = df.sample(1000)
+    # Sample 100 only for the free Heroku deployment; if running locally, can remove this
+    df = df.sample(100)
     
     # Join incidents to zip codes
     gdf = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df[long_col], df[lat_col]))
