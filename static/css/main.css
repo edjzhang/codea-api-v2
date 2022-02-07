@@ -23,4 +23,4 @@ nav ul li a, nav ul li span, header .action { display: block; padding: 0.5rem; }
 .content input, .content textarea { margin-bottom: 1em; }
 .content textarea { min-height: 12em; resize: vertical; }
 input.danger { color: #08444c; }
-input[type=submit] { align-self: start; min-width: 10em; }
+input[type=submit] {   margin: 0 auto; min-width: 10em; }
