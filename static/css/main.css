@@ -1,4 +1,4 @@
-html { font-family: sans-serif; background: #eee; padding: 1rem; }
+html { font-family: sans-serif; background: #08444c; padding: 1rem; }
 body { max-width: 960px; margin: 2 auto; background: white; }
 h1 { font-family: serif; color: #08444c; margin: 1rem 0; }
 a { color: #08444c; }
@@ -22,5 +22,5 @@ nav ul li a, nav ul li span, header .action { display: block; padding: 0.5rem; }
 .content label { font-weight: bold; margin-bottom: 0.5em; }
 .content input, .content textarea { margin-bottom: 1em; }
 .content textarea { min-height: 12em; resize: vertical; }
-input.danger { color: #cc2f2e; }
+input.danger { color: #08444c; }
 input[type=submit] { align-self: start; min-width: 10em; }
