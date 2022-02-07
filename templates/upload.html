@@ -7,7 +7,7 @@
       <header>
          <h1> &nbsp; Open response time analysis (Proof-of-concept: CA city data only)</h1>
       </header>
-      <div id="logo">
+      <div style="text-align:center">
          <img src="{{url_for('static', filename='moti_logo.png')}}" width = "200" height = "200" align="middle" />
       </div>
       <form action = "https://sj-open-data-api.herokuapp.com/uploader" method = "POST" 
@@ -17,7 +17,9 @@
          <p> &nbsp; Name of longitude column <input type = "text" name = "long_col" /></p>
          <p> &nbsp; Name of start time column <input type = "text" name = "start_time_col" /></p>
          <p> &nbsp; Name of end time column <input type = "text" name = "end_time_col" /></p>
+         <div style="text-align:center">
          <input type = "submit" align="middle" />
+         </div>
       </form>   
    </body>
 </html>
