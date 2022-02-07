@@ -1,11 +1,14 @@
 <html>
   <head>
-    <title>Open data response time analysis (Proof-of-concept: CA city data only)</title>
+    <title> Open data response time analysis</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
   </head>
    <body>
+      <header>
+         <h1> Open data response time analysis (Proof-of-concept: CA city data only)</h1>
+      </header>
       <div id="logo">
-      <img src="{{url_for('static', filename='moti_logo.png')}}" width = "200" height = "200" align="middle" />
+         <img src="{{url_for('static', filename='moti_logo.png')}}" width = "200" height = "200" align="middle" />
       </div>
       <form action = "https://sj-open-data-api.herokuapp.com/uploader" method = "POST" 
          enctype = "multipart/form-data">
