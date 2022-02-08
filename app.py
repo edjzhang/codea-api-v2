@@ -9,7 +9,7 @@ import geopandas as gpd
 from geopandas.tools import sjoin
 
 from data_cleaning import read_upload, clean_lat_long
-from utils import generate_plot_pdf
+from utils import generate_pdf
 
 app = Flask(__name__, template_folder='templates')
 app.secret_key = "super secret key"
@@ -111,10 +111,8 @@ def return_file():
     for k in range(len(zctas_df_geojson['features'])):
       zctas_df_geojson['features'][k]['id'] = \
           zctas_df_geojson['features'][k]['properties']['zcta']
-
-    response_df = gdf.groupby(['zcta'])['response_time'].mean().round().reset_index()
     
-    pdf = generate_plot_pdf(response_df, zctas_df_geojson, gdf)
+    pdf = generate_pdf(gdf, zctas_df_geojson)
     
     response = make_response(pdf.output(dest='S').encode('latin-1'))
     response.headers.set('Content-Disposition', 'attachment', 
@@ -125,7 +123,7 @@ def return_file():
         missing_lat_long_value, non_us_lat_long_value, zctas_df_subset, df_sample,\
         gdf, og_len, new_len, no_zip_match, missing_timestamps, filtered_df_shape,\
         filtered_df_shape2, response_time_out_of_range, income_median, black_median,\
-        hispanic_median, zctas_df_geojson, response_df, pdf
+        hispanic_median, zctas_df_geojson, pdf
         
     gc.collect()
     print(hpy().heap())
