@@ -5,8 +5,6 @@ import pandas as pd
 import plotly.graph_objs as go
 from fpdf import FPDF
 
-TMP_FILE_NAME = 'tmp.jpeg'
-
 
 def add_plot_to_pdf(pdf, reference_gdf, geojson, col_name, title, colorscale='hot_r'):
     plot_df = reference_gdf.groupby(['zcta'])[col_name].mean().round().reset_index()
@@ -27,13 +25,13 @@ def add_plot_to_pdf(pdf, reference_gdf, geojson, col_name, title, colorscale='ho
                                   center = {"lat": pd.Series([point.y for point in reference_gdf.geometry]).mean() ,
                                             "lon":pd.Series([point.x for point in reference_gdf.geometry]).mean()},
                                   ))
-    fig.write_image(TMP_FILE_NAME) 
+    fig.write_image(col_name+'tmp.jpeg') 
     
     pdf.add_page()
     pdf.set_font('Arial', 'B', 16)
-    pdf.image(TMP_FILE_NAME, x = None, y = None, w = 100, type = 'jpeg')
+    pdf.image(col_name+'tmp.jpeg', x = None, y = None, w = 100, type = 'jpeg')
     
-    os.remove(TMP_FILE_NAME)
+    os.remove(col_name+'tmp.jpeg')
     del fig, plot_df, reference_gdf, geojson, col_name, title, colorscale
     gc.collect()
     
