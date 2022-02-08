@@ -3,20 +3,21 @@ from guppy import hpy
 import gc
 from flask import Flask, request, make_response, render_template
 from werkzeug.utils import secure_filename
-from fpdf import FPDF
 
 import pandas as pd
 import json
 import geopandas as gpd
 from geopandas.tools import sjoin
-import plotly.graph_objs as go
 
 from data_cleaning import read_upload, clean_lat_long
-# from generate_pdf import
+from utils import generate_plot_pdf
 
 app = Flask(__name__, template_folder='templates')
 app.secret_key = "super secret key"
 
+LOWER_TIME_BOUND_SECONDS = 60
+UPPER_TIME_BOUND_SECONDS = 3600
+    
 # 2010 Census ZCTA boundaries from https://earthworks.stanford.edu/catalog/stanford-dc841dq9031
 zctas_df = gpd.read_file('data/dc841dq9031.shp').to_crs(epsg=4326)
 zctas_df_bounds = zctas_df.bounds
@@ -91,8 +92,6 @@ def return_file():
     
     # Filter and flag unexpected response times
     filtered_df_shape2 = len(gdf)
-    LOWER_TIME_BOUND_SECONDS = 60
-    UPPER_TIME_BOUND_SECONDS = 3600
     print((gdf['response_time'] < LOWER_TIME_BOUND_SECONDS).sum(), 'rows dropped due to response time shorter than a minute')
     print((gdf['response_time'] > UPPER_TIME_BOUND_SECONDS).sum(), 'rows dropped due to response time longer than an hour')
     response_time_out_of_range = ((gdf['response_time'] < LOWER_TIME_BOUND_SECONDS) | (gdf['response_time'] > UPPER_TIME_BOUND_SECONDS)).sum()
@@ -104,7 +103,7 @@ def return_file():
     print("Median zip-code-average income:", income_median)
     print("Median zip-code-level Black population proportion:", black_median)
     print("Median zip-code-average Hispanic population proportion:", hispanic_median)
-    
+        
     zctas_df_subset = zctas_df_subset.to_crs(epsg=4326)
     zctas_df_subset.to_file("data/zctas_df_subset_tmp.geojson", driver = "GeoJSON")
     with open("data/zctas_df_subset_tmp.geojson") as geofile:
@@ -114,40 +113,23 @@ def return_file():
       zctas_df_geojson['features'][k]['id'] = \
           zctas_df_geojson['features'][k]['properties']['zcta']
 
-    plot_df = gdf.groupby(['zcta'])['response_time'].mean().round().reset_index()
+    response_df = gdf.groupby(['zcta'])['response_time'].mean().round().reset_index()
     
-    fig = go.Figure(go.Choroplethmapbox(z=plot_df['response_time'],
-                                        locations=plot_df['zcta'], 
-                                        colorscale='hot_r',
-                                        colorbar=dict(thickness=20, ticklen=3),
-                                        geojson=zctas_df_geojson,
-                                        text=plot_df['zcta'],
-                                        hovertemplate='<b>Zip code</b>: <b>%{text}</b>'+
-                                                      '<br><b>Response time (seconds)</b>: %{z}<br>',
-                                        marker_line_width=0.1, marker_opacity=0.7))
-
-    fig.update_layout(title_text ='Response times by zip code', title_x =0.5, width=750, height=700,
-                      mapbox=dict(style='open-street-map',
-                                  zoom=9.7, 
-                                  center = {"lat": pd.Series([point.y for point in gdf.geometry]).mean() ,
-                                            "lon":pd.Series([point.x for point in gdf.geometry]).mean()},
-                                  ))
-    tmp_file_name = 'tmp_' + str(pd.Timestamp.now()) + '.jpeg'
-    fig.write_image(tmp_file_name)
+    pdf = generate_plot_pdf(response_df, zctas_df_geojson, gdf)
     
-    pdf = FPDF()
-    pdf.add_page()
-    pdf.set_font('Arial', 'B', 16)
-    pdf.image(tmp_file_name, x = None, y = None, w = 100, type = 'jpeg')
     response = make_response(pdf.output(dest='S').encode('latin-1'))
     response.headers.set('Content-Disposition', 'attachment', 
                          filename=filename + '_analysis.pdf')
     response.headers.set('Content-Type', 'application/pdf')
     
-    del df, zctas_df_geojson, fig, pdf, gdf, df_sample, zctas_df_subset, file
+    del file, filename, df, lat_col, long_col, start_time_col, end_time_col,\
+        missing_lat_long_value, non_us_lat_long_value, zctas_df_subset, df_sample,\
+        gdf, og_len, new_len, no_zip_match, missing_timestamps, filtered_df_shape,\
+        filtered_df_shape2, response_time_out_of_range, income_median, black_median,\
+        hispanic_median, zctas_df_geojson, response_df, pdf
+        
     gc.collect()
     print(hpy().heap())
-    os.remove(tmp_file_name)
     
     return response
 
