@@ -43,7 +43,10 @@ def add_plot_to_pdf(pdf, reference_gdf, geojson, col_name, title, colorscale='ho
 def generate_pdf(reference_gdf, geojson):
     pdf = FPDF()
     
-    pdf = add_plot_to_pdf(pdf, reference_gdf, geojson, 'Response times by zip code', 'hot_r')
+    pdf = add_plot_to_pdf(pdf, reference_gdf, geojson, 'response_time',
+                          'Response times by zip code', 'hot_r')
+    pdf = add_plot_to_pdf(pdf, reference_gdf, geojson, 'Per Capita Income', 
+                          'Average per capita income by zip code', 'algae')
     
     del reference_gdf, geojson
     gc.collect()
