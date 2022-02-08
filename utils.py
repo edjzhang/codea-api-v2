@@ -44,10 +44,12 @@ def generate_pdf(reference_gdf, geojson):
                           'Response times by zip code', 'hot_r')
     pdf = add_plot_to_pdf(pdf, reference_gdf, geojson, 'Per Capita Income', 
                           'Average per capita income by zip code', 'algae')
-    pdf = add_plot_to_pdf(pdf, reference_gdf, geojson, 'Black', 
-                          'Percentage of population who are Black by zip code', 'purp')
-    pdf = add_plot_to_pdf(pdf, reference_gdf, geojson, 'Hispanic/Latino Ethnicity', 
-                          'Percentage of population who are Hispanic by zip code', 'purp')
+    
+    # These plots are commented out to save memory on the free Heroku instance
+    # pdf = add_plot_to_pdf(pdf, reference_gdf, geojson, 'Black', 
+    #                       'Percentage of population who are Black by zip code', 'purp')
+    # pdf = add_plot_to_pdf(pdf, reference_gdf, geojson, 'Hispanic/Latino Ethnicity', 
+    #                       'Percentage of population who are Hispanic by zip code', 'purp')
     
     del reference_gdf, geojson
     gc.collect()
