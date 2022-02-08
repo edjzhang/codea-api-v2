@@ -1,4 +1,3 @@
-import os
 from guppy import hpy
 import gc
 from flask import Flask, request, make_response, render_template

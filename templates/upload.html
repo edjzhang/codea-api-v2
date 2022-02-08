@@ -7,9 +7,10 @@
       <header>
          <h1> &nbsp; Emergency reponse time open data</h1>
          <h2> &nbsp; Proof-of-concept: Data from cities in California only</h2>
+         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
       </header>
       <div style="text-align:center">
-         <img src="{{url_for('static', filename='moti_logo.png')}}" width = "200" height = "200" align="middle" />
+         <img src="{{url_for('static', filename='moti_logo.png')}}" width = "200" height = "200" />
       </div>
       <form action = "https://sj-open-data-api.herokuapp.com/uploader" method = "POST" 
          enctype = "multipart/form-data">
@@ -19,8 +20,9 @@
          <p> &nbsp; Name of start time column <input type = "text" name = "start_time_col" /></p>
          <p> &nbsp; Name of end time column <input type = "text" name = "end_time_col" /></p>
          <div style="text-align:center">
-         <input type = "submit" align="middle" />
+         <input type = "submit" onclick="$('#loading').show();"/>
          </div>
-      </form>   
+      </form>
+      <div id="loading" style="display:none;"><img src="loading.gif" alt="" />Loading!</div>   
    </body>
 </html>
