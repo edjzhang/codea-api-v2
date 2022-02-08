@@ -29,7 +29,7 @@ def add_plot_to_pdf(pdf, reference_gdf, geojson, col_name, title, colorscale='ho
     
     pdf.add_page()
     pdf.set_font('Arial', 'B', 16)
-    pdf.image(col_name+'tmp.jpeg', x = None, y = None, w = 100, type = 'jpeg')
+    pdf.image(col_name+'tmp.jpeg', x = None, y = None, w = 200, type = 'jpeg')
     
     os.remove(col_name+'tmp.jpeg')
     del fig, plot_df, reference_gdf, geojson, col_name, title, colorscale
@@ -45,6 +45,10 @@ def generate_pdf(reference_gdf, geojson):
                           'Response times by zip code', 'hot_r')
     pdf = add_plot_to_pdf(pdf, reference_gdf, geojson, 'Per Capita Income', 
                           'Average per capita income by zip code', 'algae')
+    pdf = add_plot_to_pdf(pdf, reference_gdf, geojson, 'Black', 
+                          'Percentage of population who are Black by zip code', 'purp')
+    pdf = add_plot_to_pdf(pdf, reference_gdf, geojson, 'Hispanic/Latino Ethnicity', 
+                          'Percentage of population who are Hispanic by zip code', 'purp')
     
     del reference_gdf, geojson
     gc.collect()
