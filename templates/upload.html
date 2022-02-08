@@ -7,7 +7,6 @@
       <header>
          <h1> &nbsp; Emergency reponse time open data</h1>
          <h2> &nbsp; Proof-of-concept: Data from cities in California only</h2>
-         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
       </header>
       <div style="text-align:center">
          <img src="{{url_for('static', filename='moti_logo.png')}}" width = "200" height = "200" />
@@ -20,9 +19,8 @@
          <p> &nbsp; Name of start time column <input type = "text" name = "start_time_col" /></p>
          <p> &nbsp; Name of end time column <input type = "text" name = "end_time_col" /></p>
          <div style="text-align:center">
-         <input type = "submit" onclick="$('#loading').show();"/>
+         <input type = "submit""/>
          </div>
-      </form>
-      <div id="loading" style="display:none;"><img src="static/loader.gif" alt="" />Loading!</div>   
+      </form>   
    </body>
 </html>
