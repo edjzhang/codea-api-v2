@@ -1,6 +1,5 @@
 import gc
 import os
-
 import pandas as pd
 import plotly.graph_objs as go
 from fpdf import FPDF
