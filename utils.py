@@ -5,7 +5,7 @@ import pandas as pd
 import plotly.graph_objs as go
 from fpdf import FPDF
 
-def generate_pdf(response_df, geojson, reference_gdf):
+def generate_plot_pdf(response_df, geojson, reference_gdf):
     fig = go.Figure(go.Choroplethmapbox(z=response_df['response_time'],
                                         locations=response_df['zcta'], 
                                         colorscale='hot_r',
