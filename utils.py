@@ -58,7 +58,7 @@ def generate_pdf(reference_gdf, geojson):
     analysis_string = corr_df.to_string()
     pdf.add_page()
     pdf.set_font('Arial', 'B', 12)
-    pdf.MultiCell(txt="Positive correlations mean response time was slower for zip codes with more residents of color"\
+    pdf.multi_cell(txt="Positive correlations mean response time was slower for zip codes with more residents of color"\
                       " or with lower income"\
                       "\nCorrelation with lower-income residents: " + str(corr_df[0].round(2)) +\
                       "\nCorrelation with Black residents: " + str(corr_df[1].round(2)) +\
