@@ -58,11 +58,11 @@ def generate_pdf(reference_gdf, geojson):
     analysis_string = corr_df.to_string()
     pdf.add_page()
     pdf.set_font('Arial', 'B', 12)
-    pdf.cell(txt="Positive correlations mean response time was slower for zip codes with more residents \n of color"\
-             " or with lower income", w=175)
-    pdf.cell(h=15, txt="Correlation with lower-income residents: " + str(corr_df[0].round(2)), w=175)
-    pdf.cell(h=30, txt="Correlation with Black residents: " + str(corr_df[1].round(2)), w=175)
-    pdf.cell(h=45, txt="Correlation with Hispanic residents: " + str(corr_df[2].round(2)), w=175)
+    pdf.MultiCell(txt="Positive correlations mean response time was slower for zip codes with more residents of color"\
+                      " or with lower income"\
+                      "\nCorrelation with lower-income residents: " + str(corr_df[0].round(2)) +\
+                      "\nCorrelation with Black residents: " + str(corr_df[1].round(2)) +\
+                      "\nCorrelation with Hispanic residents: " + str(corr_df[2].round(2)))
     
     del reference_gdf, geojson, corr_df, analysis_string
     gc.collect()
