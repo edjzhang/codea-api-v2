@@ -62,7 +62,7 @@ def generate_pdf(reference_gdf, geojson):
                       " or with lower income"\
                       "\nCorrelation with lower-income residents: " + str(corr_df[0].round(2)) +\
                       "\nCorrelation with Black residents: " + str(corr_df[1].round(2)) +\
-                      "\nCorrelation with Hispanic residents: " + str(corr_df[2].round(2)), w=175, h=1000)
+                      "\nCorrelation with Hispanic residents: " + str(corr_df[2].round(2)), w=175, h=350)
     
     del reference_gdf, geojson, corr_df
     gc.collect()
