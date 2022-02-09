@@ -37,20 +37,6 @@ def add_plot_to_pdf(pdf, reference_gdf, geojson, col_name, title, colorscale='ho
     return pdf
     
 
-def add_analysis_to_pdf(pdf, reference_pdf):
-    print(reference_pdf.shape)
-    corr_df = reference_pdf.groupby(['zcta'])[['response_time', 'Per Capita Income', 
-                                               'Black', 'Hispanic/Latino Ethnicity']].mean().corr().iloc[0, 1:]
-    analysis_string = corr_df.to_string()
-    pdf.add_page()
-    pdf.set_font('Arial', 'B', 12)
-    pdf.cell(txt=analysis_string)
-    
-    del corr_df, reference_pdf
-    gc.collect()
-    
-    return pdf
-
 def generate_pdf(reference_gdf, geojson):
     pdf = FPDF()
     
@@ -64,8 +50,15 @@ def generate_pdf(reference_gdf, geojson):
     #                       'Percentage of population who are Black by zip code', 'purp')
     # pdf = add_plot_to_pdf(pdf, reference_gdf, geojson, 'Hispanic/Latino Ethnicity', 
     #                       'Percentage of population who are Hispanic by zip code', 'purp')
+    print(reference_gdf.shape)
+    corr_df = reference_gdf.groupby(['zcta'])[['response_time', 'Per Capita Income', 
+                                               'Black', 'Hispanic/Latino Ethnicity']].mean().corr().iloc[0, 1:]
+    analysis_string = corr_df.to_string()
+    pdf.add_page()
+    pdf.set_font('Arial', 'B', 12)
+    pdf.cell(txt=analysis_string)
     
-    del reference_gdf, geojson
+    del reference_gdf, geojson, corr_df, analysis_string
     gc.collect()
     
     return pdf
