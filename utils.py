@@ -1,6 +1,8 @@
 import gc
 import os
 import pandas as pd
+from statsmodels.stats.proportion import proportions_ztest
+from statsmodels.stats.multitest import multipletests
 import plotly.graph_objs as go
 from fpdf import FPDF
 
@@ -28,7 +30,7 @@ def add_plot_to_pdf(pdf, reference_gdf, geojson, col_name, title, colorscale='ho
     
     pdf.add_page()
     pdf.set_font('Arial', 'B', 16)
-    pdf.image(col_name+'tmp.jpeg', x=None, y=None, w=175, type='jpeg')
+    pdf.image(col_name+'tmp.jpeg', x=None, y=None, w=150, type='jpeg')
     
     os.remove(col_name+'tmp.jpeg')
     del fig, plot_df, reference_gdf, geojson, col_name, title, colorscale
@@ -56,7 +58,11 @@ def generate_pdf(reference_gdf, geojson):
     analysis_string = corr_df.to_string()
     pdf.add_page()
     pdf.set_font('Arial', 'B', 12)
-    pdf.cell(txt=analysis_string, w=175)
+    pdf.cell(txt="Positive correlations mean response time was slower for zip codes with more residents of color"\
+             " or with lower income", w=175)
+    pdf.cell(txt="Correlation with lower-income residents: " + str(corr_df[0].round(2)), w=175)
+    pdf.cell(txt="Correlation with Black residents: " + str(corr_df[1].round(2)), w=175)
+    pdf.cell(txt="Correlation with Hispanic residents: " + str(corr_df[2].round(2)), w=175)
     
     del reference_gdf, geojson, corr_df, analysis_string
     gc.collect()
