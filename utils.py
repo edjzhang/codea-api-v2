@@ -28,7 +28,7 @@ def add_plot_to_pdf(pdf, reference_gdf, geojson, col_name, title, colorscale='ho
     
     pdf.add_page()
     pdf.set_font('Arial', 'B', 16)
-    pdf.image(col_name+'tmp.jpeg', x = None, y = None, w = 200, type = 'jpeg')
+    pdf.image(col_name+'tmp.jpeg', x = None, y = None, w = 175, type = 'jpeg')
     
     os.remove(col_name+'tmp.jpeg')
     del fig, plot_df, reference_gdf, geojson, col_name, title, colorscale
@@ -36,7 +36,20 @@ def add_plot_to_pdf(pdf, reference_gdf, geojson, col_name, title, colorscale='ho
     
     return pdf
     
+
+def add_analysis_to_pdf(pdf, reference_pdf):
+    corr_df = reference_pdf.groupby(['zcta'])[['response_time', 'Per Capita Income', 
+                                               'Black', 'Hispanic/Latino Ethnicity']].mean().corr().iloc[0, 1:]
+    analysis_string = corr_df.to_string()
+    pdf.add_page()
+    pdf.set_font('Arial', 'B', 12)
+    pdf.cell(txt=analysis_string)
     
+    del corr_df, reference_pdf
+    gc.collect()
+    
+    return pdf
+
 def generate_pdf(reference_gdf, geojson):
     pdf = FPDF()
     
