@@ -55,16 +55,16 @@ def generate_pdf(reference_gdf, geojson):
     print(reference_gdf.shape)
     corr_df = reference_gdf.groupby(['zcta'])[['response_time', 'Per Capita Income', 
                                                'Black', 'Hispanic/Latino Ethnicity']].mean().corr().iloc[0, 1:]
-    analysis_string = corr_df.to_string()
+    analysis_string = corr_df.to_string()    
     pdf.add_page()
     pdf.set_font('Arial', 'B', 12)
     pdf.multi_cell(txt="Positive correlations mean response time was slower for zip codes with more residents of color"\
                       " or with lower income"\
                       "\nCorrelation with lower-income residents: " + str(corr_df[0].round(2)) +\
                       "\nCorrelation with Black residents: " + str(corr_df[1].round(2)) +\
-                      "\nCorrelation with Hispanic residents: " + str(corr_df[2].round(2)))
+                      "\nCorrelation with Hispanic residents: " + str(corr_df[2].round(2)), w=175, h=1000)
     
-    del reference_gdf, geojson, corr_df, analysis_string
+    del reference_gdf, geojson, corr_df
     gc.collect()
     
     return pdf
