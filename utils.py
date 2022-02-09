@@ -38,6 +38,7 @@ def add_plot_to_pdf(pdf, reference_gdf, geojson, col_name, title, colorscale='ho
     
 
 def add_analysis_to_pdf(pdf, reference_pdf):
+    print(reference_pdf.shape)
     corr_df = reference_pdf.groupby(['zcta'])[['response_time', 'Per Capita Income', 
                                                'Black', 'Hispanic/Latino Ethnicity']].mean().corr().iloc[0, 1:]
     analysis_string = corr_df.to_string()
