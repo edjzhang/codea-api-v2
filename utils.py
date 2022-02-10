@@ -84,7 +84,7 @@ def generate_pdf(reference_gdf, geojson, income_median, black_median, hispanic_m
                        # "\nP-value for Black residents: " + str(adjusted_pvals[1].round(2)) +\
                        # "\nP-value for Hispanic residents: " + str(adjusted_pvals[2].round(2)), w=175, h=25, align='L')
     
-    del reference_gdf, geojson, corr_df#, income_pval, black_pval, hispanic_pval, adjusted_pvals
+    del reference_gdf, geojson, corr_df #, income_pval, black_pval, hispanic_pval, adjusted_pvals
     gc.collect()
     
     return pdf
