@@ -64,10 +64,12 @@ def generate_pdf(reference_gdf, geojson, income_median, black_median, hispanic_m
     # Add quantitative measures of fairness
     corr_df = reference_gdf.groupby(['zcta'])[['response_time', 'Per Capita Income', 
                                                'Black', 'Hispanic/Latino Ethnicity']].mean().corr().iloc[0, 1:]  
-    income_pval = test_equity(reference_gdf, 'Per Capita Income', income_median, 'larger')
-    black_pval = test_equity(reference_gdf, 'Black', black_median, 'smaller')
-    hispanic_pval = test_equity(reference_gdf, 'Hispanic/Latino Ethnicity', hispanic_median, 'smaller')
-    adjusted_pvals = multipletests([income_pval, black_pval, hispanic_pval], method='holm')[1]
+    
+    # These tests have been commented out to save memory on the free Heroku instance
+    # income_pval = test_equity(reference_gdf, 'Per Capita Income', income_median, 'larger')
+    # black_pval = test_equity(reference_gdf, 'Black', black_median, 'smaller')
+    # hispanic_pval = test_equity(reference_gdf, 'Hispanic/Latino Ethnicity', hispanic_median, 'smaller')
+    # adjusted_pvals = multipletests([income_pval, black_pval, hispanic_pval], method='holm')[1]
     
     pdf.add_page()
     pdf.set_font('Arial', 'B', 12)
@@ -75,14 +77,14 @@ def generate_pdf(reference_gdf, geojson, income_median, black_median, hispanic_m
                        " or with lower income (considered strong above 0.7)"\
                        "\nCorrelation with lower-income residents: " + str(corr_df[0].round(2)) +\
                        "\nCorrelation with Black residents: " + str(corr_df[1].round(2)) +\
-                       "\nCorrelation with Hispanic residents: " + str(corr_df[2].round(2)) +\
-                       "P-values below .05 cause us to reject the null hypothesis of equal proportion of responses"\
-                       " by zip code demographic within 12 minutes" +\
-                       "\nP-value for lower-income residents: " + str(adjusted_pvals[0].round(2)) +\
-                       "\nP-value for Black residents: " + str(adjusted_pvals[1].round(2)) +\
-                       "\nP-value for Hispanic residents: " + str(adjusted_pvals[2].round(2)), w=175, h=50, align='L')
+                       "\nCorrelation with Hispanic residents: " + str(corr_df[2].round(2)), w=175, h=25, align='L')
+                       # "P-values below .05 cause us to reject the null hypothesis of equal proportion of responses"\
+                       # " by zip code demographic within 12 minutes" +\
+                       # "\nP-value for lower-income residents: " + str(adjusted_pvals[0].round(2)) +\
+                       # "\nP-value for Black residents: " + str(adjusted_pvals[1].round(2)) +\
+                       # "\nP-value for Hispanic residents: " + str(adjusted_pvals[2].round(2)), w=175, h=25, align='L')
     
-    del reference_gdf, geojson, corr_df, income_pval, black_pval, hispanic_pval, adjusted_pvals
+    del reference_gdf, geojson, corr_df#, income_pval, black_pval, hispanic_pval, adjusted_pvals
     gc.collect()
     
     return pdf
