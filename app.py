@@ -112,7 +112,7 @@ def return_file():
       zctas_df_geojson['features'][k]['id'] = \
           zctas_df_geojson['features'][k]['properties']['zcta']
     
-    pdf = generate_pdf(gdf, zctas_df_geojson)
+    pdf = generate_pdf(gdf, zctas_df_geojson, income_median, black_median, hispanic_median)
     
     response = make_response(pdf.output(dest='S').encode('latin-1'))
     response.headers.set('Content-Disposition', 'attachment', 
