@@ -50,6 +50,7 @@ def test_equity(df, col, threshold, alternative):
 def generate_pdf(reference_gdf, geojson, income_median, black_median, hispanic_median):
     pdf = FPDF()
     
+    pdf.add_page()
     pdf.set_font('Arial', 'B', 12)
     pdf.multi_cell(txt="Results generated on random sample of 100 data points for this proof-of-concept")
                    
@@ -74,7 +75,6 @@ def generate_pdf(reference_gdf, geojson, income_median, black_median, hispanic_m
     # hispanic_pval = test_equity(reference_gdf, 'Hispanic/Latino Ethnicity', hispanic_median, 'smaller')
     # adjusted_pvals = multipletests([income_pval, black_pval, hispanic_pval], method='holm')[1]
     
-    pdf.add_page()
     pdf.multi_cell(txt="Positive correlations mean response time was slower for zip codes with more residents of color"\
                        " or with lower income (considered strong above 0.7)"\
                        "\nCorrelation with lower-income residents: " + str(corr_df[0].round(2)) +\
