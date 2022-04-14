@@ -1,5 +1,5 @@
 # Emergency Response Time Open Data API
-This repo implements the Open Data API referenced in [this paper] (https://dl.acm.org/doi/abs/10.1145/3465416.3483290).
+This repo implements the Open Data API referenced in [this paper](https://dl.acm.org/doi/abs/10.1145/3465416.3483290).
 
 Open data users looking to answer questions related to equity struggle with the time-intensive process of bringing in appropriate demographic data to supplement existing datasets. In order to eliminate this barrier, our team developed an open U.S. Census-linked interface. This service provides a customizable workflow that connects existing government datasets to demographic information captured by the U.S. Census. For example, our interface uses latitude and longitude fields from public datasets to generate additional relevant data, such as county median household income level, education level, insurance coverage, race/ethnicity breakdown, etc. 
 
@@ -17,7 +17,7 @@ python app.py
 ```
 Then, navigate to http://127.0.0.1:60000/, submit your file, and provide the names of the relevant columns.
 
-Alternatively to use a small proof-of-concept deployed online, navigate [here] (https://sj-open-data-api.herokuapp.com/) and follow the same submission process.
+Alternatively to use a small proof-of-concept deployed online, navigate [here](https://sj-open-data-api.herokuapp.com/) and follow the same submission process.
 
 In both cases, you should generate a PDF containing maps of your city with response times and income broken down by zip code.
 
